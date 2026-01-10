@@ -842,11 +842,76 @@
                     <h3>철거왕</h3>
                     <p>📍 경기도 안산시 상록구 용신로 258, 2층(사동)</p>
                     <p>📞 010-3651-3605</p>
-                    <a href="https://map.naver.com/p/search/경기도%20안산시%20상록구%20용신로%20258" target="_blank" class="naver-map-btn">네이버 지도로 길찾기</a>
                 </div>
 
                 <div class="map-container">
-                    <p style="color: #999;">지도 영역 (실제 구현 시 네이버 지도 API 연동)</p>
+                    <p style="color: #999;">
+                    
+		<!-- 다음지도 시작 -->
+			<div class="map_wrap">
+				<div id="map" style="width:100%;height:350px;"></div><br/> <!-- 지도를 표시할 div -->
+				<!-- 지도 확대, 축소 컨트롤 div 입니다 -->
+				<div class="custom_zoomcontrol radius_border">
+					<span onclick="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"></span>
+					<span onclick="zoomOut()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"></span>
+				</div>
+			</div>
+
+			<!--아래에서 도메인에 맞게 골라 붙혀넣기 
+				eable.kr :: a05adbc45eb33fbdd7d7edde5d0fa8ef
+    			waplus.kr :: 6b01599b5a5a0b789560f328af6a67e7
+			-->
+			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6b01599b5a5a0b789560f328af6a67e7&libraries=services"></script>
+			<script>
+				var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+				mapOption = {
+					center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+					level: 3 // 지도의 확대 레벨
+				};
+
+				// 지도를 생성합니다
+				var map = new daum.maps.Map(mapContainer, mapOption);
+
+				// 주소-좌표 변환 객체를 생성합니다
+				var geocoder = new daum.maps.services.Geocoder();
+
+				// 주소로 좌표를 검색합니다
+				geocoder.addressSearch("경기 안산시 상록구 용신로 258", function(result, status) {
+
+				// 정상적으로 검색이 완료됐으면
+				if (status === daum.maps.services.Status.OK) {
+
+				var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+
+				// 결과값으로 받은 위치를 마커로 표시합니다
+				var marker = new daum.maps.Marker({
+					map: map,
+					position: coords
+				});
+
+				// 인포윈도우로 장소에 대한 설명을 표시합니다
+				var infowindow = new daum.maps.InfoWindow({
+					content: '<div style="width:150px;text-align:center;padding:6px 0;">철거왕</div>'
+				});
+					infowindow.open(map, marker);
+
+				// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+					map.setCenter(coords);
+					}
+				});
+
+				// 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
+				function zoomIn() {
+					map.setLevel(map.getLevel() - 1);
+				}
+
+				// 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
+				function zoomOut() {
+					map.setLevel(map.getLevel() + 1);
+				}
+			</script>
+		<!-- 다음지도 끝 -->    
+                    </p>
                 </div>
 
                 <div class="card-grid">
@@ -879,24 +944,6 @@
             </section>
 
             <section>
-                <h2>연락처</h2>
-                <div class="contact-grid">
-                    <div class="contact-card">
-                        <div class="contact-label">Phone</div>
-                        <div class="contact-value">010-3651-3605</div>
-                        <div class="contact-sub">평일 08:00 - 19:00</div>
-                    </div>
-                    <div class="contact-card">
-                        <div class="contact-label">KakaoTalk</div>
-                        <div class="contact-value">@철거왕</div>
-                        <div class="contact-sub">24시간 문의 가능</div>
-                    </div>
-                    <div class="contact-card">
-                        <div class="contact-label">Email</div>
-                        <div class="contact-value" style="font-size: 1.3rem;">info@철거왕.kr</div>
-                        <div class="contact-sub">24시간 내 답변</div>
-                    </div>
-                </div>
 
                 <h2 style="margin-top: 100px;">견적 절차</h2>
                 <div class="card-grid">
@@ -952,7 +999,6 @@
             <div class="footer-section">
                 <h3>연락처</h3>
                 <p>010-3651-3605</p>
-                <p>info@철거왕.kr</p>
             </div>
             <div class="footer-section">
                 <h3>서비스</h3>
@@ -962,7 +1008,7 @@
             </div>
         </div>
         <div class="copyright">
-            <p>© 2024 철거왕. All rights reserved. Hosted by 와플러스</p>
+            <p>© 2024 철거왕. All rights reserved. </p>
         </div>
     </footer>
 
