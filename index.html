@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>철거왕 - 아파트·상가 철거 전문</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #191919;
+            overflow-x: hidden;
+            background: #fff;
+        }
+
+        header {
+            background: #000;
+            color: white;
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #222;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: #fff;
+        }
+
+        nav {
+            display: flex;
+            gap: 0;
+        }
+
+        nav a {
+            color: #999;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: -0.3px;
+            transition: all 0.3s;
+            padding: 25px 20px;
+            display: block;
+        }
+
+        nav a:hover, nav a.active {
+            color: #fff;
+            background: #111;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .page-content {
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+        }
+
+        .hero {
+            height: 70vh;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-slide:nth-child(1) {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23222" width="1200" height="800"/><g fill="%23333" opacity="0.5"><rect x="100" y="200" width="200" height="400"/><rect x="350" y="150" width="180" height="500"/><rect x="580" y="250" width="160" height="350"/></g></svg>');
+        }
+
+        .hero-slide:nth-child(2) {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23111" width="1200" height="800"/><g fill="%23444" opacity="0.4"><circle cx="300" cy="400" r="150"/><circle cx="700" cy="350" r="180"/><circle cx="1000" cy="450" r="120"/></g></svg>');
+        }
+
+        .hero-slide:nth-child(3) {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23000" width="1200" height="800"/><g fill="%23555" opacity="0.3"><rect x="200" y="100" width="300" height="600" transform="rotate(15 350 400)"/><rect x="600" y="150" width="250" height="500" transform="rotate(-10 725 400)"/></g></svg>');
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.03) 30%, rgba(255,255,255,0.03) 70%, transparent 70%),
+                linear-gradient(-45deg, transparent 30%, rgba(255,255,255,0.03) 30%, rgba(255,255,255,0.03) 70%, transparent 70%);
+            background-size: 60px 60px;
+            opacity: 0.5;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            padding: 0 40px;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -3px;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: #999;
+            font-weight: 300;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-small {
+            height: 40vh;
+        }
+
+        .hero-small h1 {
+            font-size: 3rem;
+        }
+
+        section {
+            padding: 120px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: #000;
+            font-weight: 700;
+            letter-spacing: -2px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            background: transparent;
+            border: none;
+            border-top: 1px solid #e5e5e5;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .card {
+            background: #fff;
+            padding: 50px 40px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border-right: 1px solid #e5e5e5;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .card:nth-child(3n) {
+            border-right: none;
+        }
+
+        .card:nth-last-child(-n+3) {
+            border-bottom: none;
+        }
+
+        .card:hover {
+            background: #f8f8f8;
+        }
+
+        .card-number {
+            font-size: 0.875rem;
+            color: #999;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: #000;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .cta-section {
+            background: #000;
+            color: white;
+            padding: 100px 40px;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            color: #fff;
+            margin-bottom: 30px;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            color: #999;
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 50px;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: -0.5px;
+            transition: all 0.3s;
+            border: 2px solid #fff;
+        }
+
+        .cta-button:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1px;
+            background: #e5e5e5;
+            border: 1px solid #e5e5e5;
+        }
+
+        .portfolio-item {
+            position: relative;
+            height: 400px;
+            background: #000;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .portfolio-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 100%);
+            z-index: 1;
+        }
+
+        .portfolio-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 40px;
+            color: white;
+            z-index: 2;
+        }
+
+        .portfolio-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .portfolio-content p {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1px;
+            background: #e5e5e5;
+            border: 1px solid #e5e5e5;
+            margin-bottom: 60px;
+        }
+
+        .contact-card {
+            background: #fff;
+            padding: 60px 40px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .contact-card:hover {
+            background: #f8f8f8;
+        }
+
+        .contact-label {
+            font-size: 0.875rem;
+            color: #999;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-value {
+            font-size: 1.8rem;
+            color: #000;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .contact-sub {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 500px;
+            background: #f5f5f5;
+            border: 1px solid #e5e5e5;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+        }
+
+        .location-info {
+            background: #000;
+            color: #fff;
+            padding: 50px;
+            margin-bottom: 40px;
+        }
+
+        .location-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #ccc;
+            line-height: 1.8;
+        }
+
+        .naver-map-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: #03C75A;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: -0.5px;
+            transition: all 0.3s;
+        }
+
+        .naver-map-btn:hover {
+            background: #02b350;
+        }
+
+        footer {
+            background: #000;
+            color: #666;
+            padding: 80px 40px 40px;
+            border-top: 1px solid #222;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-section h3 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .footer-section p {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .footer-company {
+            border-right: 1px solid #222;
+            padding-right: 60px;
+        }
+
+        .footer-company .company-name {
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: -1px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid #222;
+            color: #555;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+            }
+
+            .footer-company {
+                border-right: none;
+                padding-right: 0;
+                border-bottom: 1px solid #222;
+                padding-bottom: 40px;
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .header-container {
+                padding: 0 20px;
+            }
+
+            nav {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: #000;
+                flex-direction: column;
+                padding: 0;
+                gap: 0;
+                transition: left 0.3s;
+                border-top: 1px solid #222;
+            }
+
+            nav.active {
+                left: 0;
+            }
+
+            nav a {
+                padding: 20px 30px;
+                border-bottom: 1px solid #222;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .hero-small h1 {
+                font-size: 2rem;
+            }
+
+            section {
+                padding: 80px 20px;
+            }
+
+            section h2 {
+                font-size: 2rem;
+                margin-bottom: 40px;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                border-right: none;
+            }
+
+            .card:nth-last-child(-n+3) {
+                border-bottom: 1px solid #e5e5e5;
+            }
+
+            .card:last-child {
+                border-bottom: none;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-company {
+                border-bottom: 1px solid #222;
+                padding-bottom: 40px;
+            }
+
+            .cta-section {
+                padding: 60px 20px;
+            }
+
+            .location-info {
+                padding: 30px 20px;
+            }
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">철거왕</div>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <nav id="mainNav">
+                <a href="#" onclick="showPage('home')" class="nav-link active">홈</a>
+                <a href="#" onclick="showPage('about')" class="nav-link">회사소개</a>
+                <a href="#" onclick="showPage('service')" class="nav-link">서비스</a>
+                <a href="#" onclick="showPage('portfolio')" class="nav-link">시공사례</a>
+                <a href="#" onclick="showPage('location')" class="nav-link">오시는길</a>
+                <a href="#" onclick="showPage('contact')" class="nav-link">견적문의</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-content">
+        <!-- 홈 -->
+        <div id="home" class="page active">
+            <section class="hero">
+                <div class="hero-slider">
+                    <div class="hero-slide active"></div>
+                    <div class="hero-slide"></div>
+                    <div class="hero-slide"></div>
+                </div>
+                <div class="hero-content">
+                    <h1>아파트·상가 철거<br>전문 기업</h1>
+                    <p>빠르고 깔끔하게, 안전하게</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>전문 서비스</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-number">01</div>
+                        <h3>아파트 철거</h3>
+                        <p>층간소음 최소화 기술로 이웃 피해 없이 안전하게 철거합니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">02</div>
+                        <h3>상가 철거</h3>
+                        <p>음식점, 카페, 사무실 등 빠른 철거로 영업 재개를 앞당깁니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">03</div>
+                        <h3>내부 인테리어 철거</h3>
+                        <p>리모델링 전 필요한 부분만 선택적으로 철거 가능합니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">04</div>
+                        <h3>폐기물 처리</h3>
+                        <p>철거부터 폐기물 처리까지 원스톱 서비스를 제공합니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">05</div>
+                        <h3>상가 원상복구</h3>
+                        <p>임대차 종료 시 원상복구를 정확하게 수행합니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">06</div>
+                        <h3>현장 청소</h3>
+                        <p>철거 후 깨끗한 마무리로 바로 시공 가능합니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">07</div>
+                        <h3>긴급 철거</h3>
+                        <p>야간 작업 등 긴급 상황에 신속하게 대응합니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">08</div>
+                        <h3>무료 견적</h3>
+                        <p>현장 방문 및 정확한 견적을 무료로 제공합니다</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="cta-section">
+                <h2>무료 견적 상담</h2>
+                <p>전문가와 상담하고 정확한 견적을 받아보세요</p>
+                <a href="#" class="cta-button" onclick="showPage('contact'); return false;">견적 문의하기</a>
+            </div>
+        </div>
+
+        <!-- 회사소개 -->
+        <div id="about" class="page">
+            <section class="hero hero-small">
+                <div class="hero-content">
+                    <h1>회사소개</h1>
+                    <p>안전과 신속함의 기준</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>왜 철거왕인가</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-number">전문성</div>
+                        <h3>아파트 철거 노하우</h3>
+                        <p>층간소음 최소화 기술과 안전한 작업으로 이웃 피해 없는 철거를 보장합니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">전문성</div>
+                        <h3>상가 철거 전문가</h3>
+                        <p>다양한 업종의 상가 철거 경험으로 빠르고 효율적인 작업을 제공합니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">신속</div>
+                        <h3>빠른 작업</h3>
+                        <p>체계적인 인력 배치와 장비 운용으로 공기를 단축합니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">정확</div>
+                        <h3>섬세한 철거</h3>
+                        <p>재사용 가능한 자재는 보존하고, 고급 마감재도 안전하게 철거합니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">안전</div>
+                        <h3>철저한 안전관리</h3>
+                        <p>보험 가입 및 안전 교육을 통해 사고 없는 현장을 만듭니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">신뢰</div>
+                        <h3>깔끔한 마무리</h3>
+                        <p>폐기물 처리부터 현장 청소까지 깔끔하게 마무리합니다</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 서비스 -->
+        <div id="service" class="page">
+            <section class="hero hero-small">
+                <div class="hero-content">
+                    <h1>서비스</h1>
+                    <p>전문적이고 체계적인 철거 서비스</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>주요 서비스</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-number">Apartment</div>
+                        <h3>아파트 전용부 철거</h3>
+                        <p>벽체, 바닥, 천장, 주방, 욕실 등 모든 부분 철거 가능. 층간소음을 최소화하여 이웃에게 피해가 없도록 작업합니다.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">Restaurant</div>
+                        <h3>음식점·카페 철거</h3>
+                        <p>주방 설비, 홀 인테리어, 덕트 등 음식점 및 카페의 모든 시설물을 신속하게 철거. 빠른 공사로 재오픈을 앞당깁니다.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">Office</div>
+                        <h3>사무실·학원 철거</h3>
+                        <p>파티션, 사무 가구, 바닥재, 천장 등 사무실과 학원의 전체 또는 부분 철거를 깔끔하게 처리합니다.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">Premium</div>
+                        <h3>고급 인테리어 철거</h3>
+                        <p>대리석, 원목, 몰딩 등 고급 마감재가 사용된 공간도 세심하게 철거하여 재사용 가능한 자재는 보존합니다.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">Restoration</div>
+                        <h3>상가 원상복구</h3>
+                        <p>임대차 계약 종료 시 필요한 원상복구 작업을 임대인 요구사항에 맞춰 정확하게 수행합니다.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">Emergency</div>
+                        <h3>긴급 철거</h3>
+                        <p>급하게 오픈해야 하는 경우, 야간 작업이 필요한 경우 등 긴급 상황에 신속하게 대응합니다.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 시공사례 -->
+        <div id="portfolio" class="page">
+            <section class="hero hero-small">
+                <div class="hero-content">
+                    <h1>시공사례</h1>
+                    <p>철거왕의 다양한 프로젝트</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>주요 프로젝트</h2>
+                <div class="portfolio-grid">
+                    <div class="portfolio-item">
+                        <div class="portfolio-content">
+                            <h3>강남 아파트 전용부 철거</h3>
+                            <p>34평 아파트 전체 철거 / 작업기간: 3일</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-content">
+                            <h3>종로 음식점 철거</h3>
+                            <p>100평 규모 레스토랑 / 작업기간: 5일</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-content">
+                            <h3>송파 카페 철거</h3>
+                            <p>50평 카페 내부 전체 / 작업기간: 2일</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-content">
+                            <h3>분당 사무실 철거</h3>
+                            <p>150평 사무공간 / 작업기간: 4일</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-content">
+                            <h3>마포 아파트 부분 철거</h3>
+                            <p>주방·욕실 리모델링 / 작업기간: 2일</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-content">
+                            <h3>서초 상가 원상복구</h3>
+                            <p>80평 상가 원상복구 / 작업기간: 3일</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 오시는길 -->
+        <div id="location" class="page">
+            <section class="hero hero-small">
+                <div class="hero-content">
+                    <h1>오시는 길</h1>
+                    <p>찾아오시는 방법을 안내해드립니다</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>위치 안내</h2>
+                
+                <div class="location-info">
+                    <h3>철거왕</h3>
+                    <p>📍 경기도 안산시 상록구 용신로 258, 2층(사동)</p>
+                    <p>📞 010-3651-3605</p>
+                    <a href="https://map.naver.com/p/search/경기도%20안산시%20상록구%20용신로%20258" target="_blank" class="naver-map-btn">네이버 지도로 길찾기</a>
+                </div>
+
+                <div class="map-container">
+                    <p style="color: #999;">지도 영역 (실제 구현 시 네이버 지도 API 연동)</p>
+                </div>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-number">대중교통</div>
+                        <h3>전철 이용</h3>
+                        <p>4호선 사당역 하차 후 도보 또는 버스 이용<br>상세한 대중교통 경로는 네이버 지도를 참고해주세요</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">자가용</div>
+                        <h3>주차 안내</h3>
+                        <p>건물 내 주차 가능<br>방문 전 주차 여부를 미리 확인해주시면 감사하겠습니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">영업시간</div>
+                        <h3>운영 시간</h3>
+                        <p>평일: 08:00 - 19:00<br>토요일: 09:00 - 15:00<br>일요일/공휴일: 휴무</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 견적문의 -->
+        <div id="contact" class="page">
+            <section class="hero hero-small">
+                <div class="hero-content">
+                    <h1>견적 문의</h1>
+                    <p>전문가와 상담하세요</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>연락처</h2>
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <div class="contact-label">Phone</div>
+                        <div class="contact-value">010-3651-3605</div>
+                        <div class="contact-sub">평일 08:00 - 19:00</div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-label">KakaoTalk</div>
+                        <div class="contact-value">@철거왕</div>
+                        <div class="contact-sub">24시간 문의 가능</div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-label">Email</div>
+                        <div class="contact-value" style="font-size: 1.3rem;">info@철거왕.kr</div>
+                        <div class="contact-sub">24시간 내 답변</div>
+                    </div>
+                </div>
+
+                <h2 style="margin-top: 100px;">견적 절차</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-number">Step 1</div>
+                        <h3>전화 상담</h3>
+                        <p>전화 또는 카카오톡으로 1차 상담을 진행합니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">Step 2</div>
+                        <h3>현장 방문</h3>
+                        <p>무료로 현장을 방문하여 정밀 조사를 실시합니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">Step 3</div>
+                        <h3>견적 제공</h3>
+                        <p>상세하고 투명한 견적서를 제공해드립니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">Step 4</div>
+                        <h3>계약 체결</h3>
+                        <p>견적 확인 후 계약을 체결하고 일정을 확정합니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">Step 5</div>
+                        <h3>작업 진행</h3>
+                        <p>안전하고 신속하게 철거 작업을 진행합니다</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-number">Step 6</div>
+                        <h3>현장 정리</h3>
+                        <p>폐기물 처리 및 현장 정리를 완료합니다</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="cta-section">
+                <h2>지금 바로 문의하세요</h2>
+                <p style="font-size: 2rem; font-weight: 700; color: #fff; margin: 40px 0;">010-3651-3605</p>
+                <p>무료 현장 조사 및 정확한 견적을 제공해드립니다</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section footer-company">
+                <div class="company-name">철거왕</div>
+                <p>대표: 주성진</p>
+                <p>사업자등록번호: 117-06-02218</p>
+                <p>주소: 경기도 안산시 상록구 용신로 258, 2층(사동)</p>
+            </div>
+            <div class="footer-section">
+                <h3>연락처</h3>
+                <p>010-3651-3605</p>
+                <p>info@철거왕.kr</p>
+            </div>
+            <div class="footer-section">
+                <h3>영업시간</h3>
+                <p>평일 08:00-19:00</p>
+                <p>토요일 09:00-15:00</p>
+                <p>일/공휴일 휴무</p>
+            </div>
+            <div class="footer-section">
+                <h3>서비스</h3>
+                <p>아파트 철거</p>
+                <p>상가 철거</p>
+                <p>폐기물 처리</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2024 철거왕. All rights reserved. Hosted by 와플러스</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('mainNav');
+            nav.classList.toggle('active');
+        }
+
+        function showPage(pageName) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            document.getElementById(pageName).classList.add('active');
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            document.getElementById('mainNav').classList.remove('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            return false;
+        }
+    </script>
+</body>
+</html>
