@@ -83,15 +83,16 @@
         }
 
         .hero {
-            height: 70vh;
-            background: #000;
+            height: 60vh;
+            background: #1a1a1a;
             display: flex;
-            align-items: center;
+            align-items: flex-end;
             justify-content: center;
             text-align: center;
             color: white;
             position: relative;
             overflow: hidden;
+            padding-bottom: 80px;
         }
 
         .hero-slider {
@@ -119,18 +120,31 @@
         }
 
         .hero-slide:nth-child(1) {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23222" width="1200" height="800"/><g fill="%23333" opacity="0.5"><rect x="100" y="200" width="200" height="400"/><rect x="350" y="150" width="180" height="500"/><rect x="580" y="250" width="160" height="350"/></g></svg>');
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7)),
+                        url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=80');
+            background-size: cover;
+            background-position: center;
         }
 
         .hero-slide:nth-child(2) {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23111" width="1200" height="800"/><g fill="%23444" opacity="0.4"><circle cx="300" cy="400" r="150"/><circle cx="700" cy="350" r="180"/><circle cx="1000" cy="450" r="120"/></g></svg>');
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7)),
+                        url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1600&q=80');
+            background-size: cover;
+            background-position: center;
         }
 
         .hero-slide:nth-child(3) {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23000" width="1200" height="800"/><g fill="%23555" opacity="0.3"><rect x="200" y="100" width="300" height="600" transform="rotate(15 350 400)"/><rect x="600" y="150" width="250" height="500" transform="rotate(-10 725 400)"/></g></svg>');
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7)),
+                        url('https://images.unsplash.com/photo-1615529182904-14819c35db37?w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-slide:nth-child(4) {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7)),
+                        url('https://images.unsplash.com/photo-1590856029826-c7a73142bbf1?w=1600&q=80');
+            background-size: cover;
+            background-position: center;
         }
 
         .hero::before {
@@ -140,11 +154,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
-                linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.03) 30%, rgba(255,255,255,0.03) 70%, transparent 70%),
-                linear-gradient(-45deg, transparent 30%, rgba(255,255,255,0.03) 30%, rgba(255,255,255,0.03) 70%, transparent 70%);
-            background-size: 60px 60px;
-            opacity: 0.5;
+            background: transparent;
+            opacity: 0;
             z-index: 1;
         }
 
@@ -156,26 +167,28 @@
         }
 
         .hero-content h1 {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
             font-weight: 700;
             letter-spacing: -3px;
             line-height: 1.2;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
         }
 
         .hero-content p {
             font-size: 1.3rem;
-            color: #999;
+            color: #fff;
             font-weight: 300;
             letter-spacing: -0.5px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
         }
 
         .hero-small {
-            height: 40vh;
+            height: 30vh;
         }
 
         .hero-small h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
         }
 
         section {
@@ -473,7 +486,7 @@
 
         @media (max-width: 1024px) {
             .footer-content {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
                 gap: 40px;
             }
 
@@ -482,7 +495,6 @@
                 padding-right: 0;
                 border-bottom: 1px solid #222;
                 padding-bottom: 40px;
-                grid-column: 1 / -1;
             }
         }
 
@@ -516,6 +528,10 @@
             nav a {
                 padding: 20px 30px;
                 border-bottom: 1px solid #222;
+            }
+
+            .hero {
+                padding-bottom: 60px;
             }
 
             .hero-content h1 {
@@ -615,6 +631,7 @@
                     <div class="hero-slide active"></div>
                     <div class="hero-slide"></div>
                     <div class="hero-slide"></div>
+                    <div class="hero-slide"></div>
                 </div>
                 <div class="hero-content">
                     <h1>아파트·상가 철거<br>전문 기업</h1>
@@ -652,16 +669,6 @@
                     </div>
                     <div class="card">
                         <div class="card-number">06</div>
-                        <h3>현장 청소</h3>
-                        <p>철거 후 깨끗한 마무리로 바로 시공 가능합니다</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-number">07</div>
-                        <h3>긴급 철거</h3>
-                        <p>야간 작업 등 긴급 상황에 신속하게 대응합니다</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-number">08</div>
                         <h3>무료 견적</h3>
                         <p>현장 방문 및 정확한 견적을 무료로 제공합니다</p>
                     </div>
@@ -948,12 +955,6 @@
                 <p>info@철거왕.kr</p>
             </div>
             <div class="footer-section">
-                <h3>영업시간</h3>
-                <p>평일 08:00-19:00</p>
-                <p>토요일 09:00-15:00</p>
-                <p>일/공휴일 휴무</p>
-            </div>
-            <div class="footer-section">
                 <h3>서비스</h3>
                 <p>아파트 철거</p>
                 <p>상가 철거</p>
@@ -966,6 +967,23 @@
     </footer>
 
     <script>
+        // 이미지 슬라이더
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+        }
+        
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+        
+        // 5초마다 슬라이드 변경
+        setInterval(nextSlide, 5000);
+
         function toggleMenu() {
             const nav = document.getElementById('mainNav');
             nav.classList.toggle('active');
