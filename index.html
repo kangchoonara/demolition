@@ -1054,5 +1054,42 @@
             return false;
         }
     </script>
+
+							<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script type='text/javascript'>
+  //<![CDATA[
+    // // 사용할 앱의 JavaScript 키를 설정해 주세요.
+
+    // // eable.kr :: a05adbc45eb33fbdd7d7edde5d0fa8ef
+    // // waplus.kr :: 6b01599b5a5a0b789560f328af6a67e7
+    
+    Kakao.init('6b01599b5a5a0b789560f328af6a67e7');
+    // // 카카오링크 버튼을 생성합니다. 처음 한번만 호출하면 됩니다.
+    function sendLink() {
+      Kakao.Link.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: '철거왕',
+          description: '안산시철거업체 단원구철거업체',
+          imageUrl: 'http://xn--v69a240cboe.waplus.kr/img/kakaologo.png',
+          link: {
+            mobileWebUrl: 'http://xn--v69a240cboe.waplus.kr',
+            webUrl: 'http://xn--v69a240cboe.waplus.kr'
+          }
+        },
+        buttons: [
+          {
+            title: '웹으로 보기',
+            link: {
+              mobileWebUrl: 'http://xn--v69a240cboe.waplus.kr',
+              webUrl: 'http://xn--v69a240cboe.waplus.kr'
+            }
+          }
+        ]
+      });
+    }
+  //]]>
+</script>
+	
 </body>
 </html>
